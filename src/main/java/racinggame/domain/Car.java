@@ -13,6 +13,14 @@ public class Car {
         this.location = carBuilder.location;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
     public static class CarBuilder {
         private String name;
         private int location;
