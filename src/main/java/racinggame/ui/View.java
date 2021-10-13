@@ -1,7 +1,10 @@
 package racinggame.ui;
 
+import nextstep.utils.Console;
 import racinggame.domain.Car;
+import racinggame.service.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,18 +13,31 @@ import java.util.List;
 public class View {
 
     /**
-     * 게임 시작 메세지 및 인풋
+     * 게임 시작 메세지 유저 이름 정하기
      */
-    public void printGameStart() {
+    public String printGameStart() {
         Message.INPUT_CAR_NAME.getMessage();
+        return Console.readLine();
     }
 
     /**
-     * 에러타입에 따른 메세지 출력
-     * @param type
+     * 몇 번의 이동을 할 것인지 입력
+     * @return
      */
-    public void printErrorMessage(String type) {
-        Message.valueOf(type).getErrorMessage();
+    public String printAttempt() {
+        Message.INPUT_ATTEMPTS.getMessage();
+        return Console.readLine();
+    }
+
+    /**
+     * 실행 결과 view만들어주는 메소드
+     * @param cars
+     */
+    public void getRoundResult(List<Car> cars) {
+        for (Car car : cars) {
+            System.out.println(car.getName() + " : " + Field.numberFormatDash(car.getLocation()));
+        }
+        System.out.println("");
     }
 
     /**
@@ -29,11 +45,13 @@ public class View {
      * @param winners
      */
     public void getWinners(List<Car> winners) {
-        StringBuilder sb = new StringBuilder();
+        List<String> names = new ArrayList<>();
+
         for (Car car : winners) {
-            sb.append(car.getName());
+            names.add(car.getName());
         }
-        String joinSeparate = String.join(Message.CAR_NAME_SEPARATOR.name(), sb);
-        System.out.println(Message.WINNERS_PREFIX + joinSeparate + Message.WINNERS_SUFFIX);
+
+        String joinSeparate = String.join(Message.CAR_NAME_SEPARATOR.getValue(), names);
+        System.out.println(Message.WINNERS_PREFIX.getValue() + joinSeparate + " " + Message.WINNERS_SUFFIX.getValue());
     }
 }
